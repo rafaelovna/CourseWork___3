@@ -62,7 +62,10 @@ public class SocksServiceImpl implements SocksService {
      * @return возвращаем количество товара по параметрам
      */
     @Override
-    public int getOfGoods(SocksColor socksColor, SocksSize socksSize, int cottonMin, int cottonMax) throws ValidationException {
+    public int getOfGoods(SocksColor socksColor, SocksSize socksSize, int cottonMin, int cottonMax) {
+        if (!validationService.validate(socksColor, socksSize,cottonMin, cottonMax)) {
+            throw new ValidationException();
+        }
         Map<Socks, Integer> socksMap = socksRepository.getAll();
         for (Map.Entry<Socks, Integer> entry : socksMap.entrySet()) {
             Socks socks = entry.getKey();
@@ -81,8 +84,8 @@ public class SocksServiceImpl implements SocksService {
      * @param socksBatch параметр
      */
     private void checkSocksButch(SocksBatch socksBatch) {
-        if (validationService.validate(socksBatch)) {
-            throw new ValidationException(socksBatch.toString());
+        if (!validationService.validate(socksBatch)) {
+            throw new ValidationException();
         }
     }
 }

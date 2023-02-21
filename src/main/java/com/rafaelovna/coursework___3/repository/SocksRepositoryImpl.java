@@ -14,12 +14,11 @@ import java.util.Map;
 @Repository
 public class SocksRepositoryImpl implements SocksRepository {
 
-    private Map<Socks, Integer> socksMap = new HashMap<>();
+    private final HashMap<Socks, Integer> socksMap = new HashMap<>();
 
     /**
      * Если товар есть мы к имующейся группе носков добавляем товар с такими же свойствами
      * иначе, просто добавляем партию.
-     *
      * @param socksBatch параметр для сохранения партии
      */
     @Override
@@ -36,8 +35,7 @@ public class SocksRepositoryImpl implements SocksRepository {
      * Списание или выдача товара
      * Ищем по ключу товар, если количество возвращаемого товара больше количества товара в партии
      * мы отнимаем из первого второе и возвращаем количество партии.
-     * Иначе просто удаляем, а если при запросе товаров нет возвращаем 0.
-     *
+     * Иначе просто удаляем, а если при запросе товаров нет, возвращаем 0.
      * @param socksBatch параметр для удаления из партии товара
      * @return возвращаем количество товара.
      */

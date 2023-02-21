@@ -8,11 +8,11 @@ public enum SocksSize {
     S("36-40"),
     M("38-42"),
     L("40-44"),
-    Xl("42-48");
+    XL("42-48");
 
-    private String size;
+    private String text;
 
-    SocksSize(String size) {
-        this.size = size;
+    SocksSize(String text) {
+        this.text = text;
     }
 }
