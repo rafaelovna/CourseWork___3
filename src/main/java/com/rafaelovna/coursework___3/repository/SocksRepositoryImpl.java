@@ -4,7 +4,9 @@ import com.rafaelovna.coursework___3.model.Socks;
 import com.rafaelovna.coursework___3.model.SocksBatch;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,11 +18,7 @@ public class SocksRepositoryImpl implements SocksRepository {
 
     private final HashMap<Socks, Integer> socksMap = new HashMap<>();
 
-    /**
-     * Если товар есть мы к имующейся группе носков добавляем товар с такими же свойствами
-     * иначе, просто добавляем партию.
-     * @param socksBatch параметр для сохранения партии
-     */
+
     @Override
     public void save(SocksBatch socksBatch) {
         Socks socks = socksBatch.getSocks();
@@ -31,14 +29,7 @@ public class SocksRepositoryImpl implements SocksRepository {
         }
     }
 
-    /**
-     * Списание или выдача товара
-     * Ищем по ключу товар, если количество возвращаемого товара больше количества товара в партии
-     * мы отнимаем из первого второе и возвращаем количество партии.
-     * Иначе просто удаляем, а если при запросе товаров нет, возвращаем 0.
-     * @param socksBatch параметр для удаления из партии товара
-     * @return возвращаем количество товара.
-     */
+
     @Override
     public int remove(SocksBatch socksBatch) {
         Socks socks = socksBatch.getSocks();
@@ -55,12 +46,19 @@ public class SocksRepositoryImpl implements SocksRepository {
         return 0;
     }
 
-    /**
-     * @return возвращаем нашу мапу
-     */
+
     @Override
     public Map<Socks, Integer> getAll() {
         return socksMap;
+    }
+
+    @Override
+    public List<SocksBatch> getList() {
+        List<SocksBatch> socksBatches = new ArrayList<>();
+        for (Map.Entry<Socks, Integer> entry : socksMap.entrySet()) {
+            socksBatches.add(new SocksBatch(entry.getKey(), entry.getValue()));
+        }
+        return null;
     }
 
 
