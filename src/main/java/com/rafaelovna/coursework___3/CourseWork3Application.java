@@ -3,7 +3,9 @@ package com.rafaelovna.coursework___3;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 @SpringBootApplication
+
 public class CourseWork3Application {
 
     public static void main(String[] args) {

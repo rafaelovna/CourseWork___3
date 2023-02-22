@@ -2,8 +2,11 @@ package com.rafaelovna.coursework___3.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rafaelovna.coursework___3.model.SocksBatch;
+import com.rafaelovna.coursework___3.repository.SocksRepository;
 import com.rafaelovna.coursework___3.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +23,14 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class FileServiceImpl implements FileService {
 
     private final ObjectMapper objectMapper;
+    private final SocksRepository socksRepository;
+
+    @Value("${path.to.data.file}")
+    public String dataFilePath;
+
+    @Value("${name.of.data.file}")
+    public String dataFileName;
+
 
     @Override
     public <T> Path saveToFile(T content, Path path) throws IOException {
@@ -27,6 +38,14 @@ public class FileServiceImpl implements FileService {
         cleanDataFile(path);
         return Files.writeString(path, json);
     }
+
+
+    @Override
+    public <T> List<T> uploadFromFile(MultipartFile file, Path path, TypeReference<List<T>> typeReference) throws IOException {
+        uploadFile(file, path);
+        return readFromFile(path, typeReference);
+    }
+
 
     @Override
     public <T> List<T> readFromFile(Path path, TypeReference <List<T>> typeReference) {
@@ -43,6 +62,7 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+
     @Override
     public void uploadFile(MultipartFile file, Path path) throws IOException {
         Files.createDirectories(path.getParent());
@@ -55,6 +75,7 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+
     @Override
     public void cleanDataFile(Path path) {
         try {
@@ -66,10 +87,19 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public <T> List<T> uploadFromFile(MultipartFile file, Path path, TypeReference<List<T>> typeReference) throws IOException {
-        uploadFile(file, path);
-        return readFromFile(path, typeReference);
+    public File exportFile() throws IOException {
+        return saveToFile(socksRepository.getList(), Path.of(dataFilePath, dataFileName)).toFile();
     }
 
+    @Override
+    public void importFile(MultipartFile file) throws IOException {
+        List<SocksBatch> socksBatches = uploadFromFile(file, Path.of(dataFilePath, dataFileName), new TypeReference<List<SocksBatch>>() {});
+        socksRepository.replace(socksBatches);
+    }
+
+    @Override
+    public File prepareRecipesTxt() throws IOException {
+        return null;
+    }
 
 }

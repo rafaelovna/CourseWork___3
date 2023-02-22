@@ -9,18 +9,20 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RequestMapping("/api/socks")
-@RequiredArgsConstructor
 @RestController
 @Tag(name = "ПРИЛОЖЕНИЕ ДЛЯ ВЕДЕНИЯ УЧЕТА НОСОЧНЫХ ИЗДЕЛИЙ. ", description = "Регистрация прихода, отпуска со склада, списание брака, подсчет количества товаров")
 public class SocksController {
 
     private final SocksService socksService;
+
+    public SocksController(SocksService socksService) {
+        this.socksService = socksService;
+    }
 
 
     @PostMapping

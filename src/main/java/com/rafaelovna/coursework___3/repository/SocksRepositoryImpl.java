@@ -61,5 +61,13 @@ public class SocksRepositoryImpl implements SocksRepository {
         return null;
     }
 
+    @Override
+    public void replace(List<SocksBatch> socksBatches) {
+        socksMap.clear();
+        for (SocksBatch batch : socksBatches) {
+            save(batch);
+        }
+    }
+
 
 }

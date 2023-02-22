@@ -45,9 +45,5 @@ public interface SocksService {
     int getOfGoods(SocksColor socksColor, SocksSize socksSize, int cottonMin, int cottonMax);
 
 
-    File exportFile() throws IOException;
 
-    void importFile(MultipartFile file) throws IOException;
-
-    File prepareRecipesTxt() throws IOException;
 }
