@@ -97,9 +97,4 @@ public class FileServiceImpl implements FileService {
         socksRepository.replace(socksBatches);
     }
 
-    @Override
-    public File prepareRecipesTxt() throws IOException {
-        return null;
-    }
-
 }

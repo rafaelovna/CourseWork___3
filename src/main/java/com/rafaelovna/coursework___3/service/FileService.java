@@ -25,7 +25,6 @@ public interface FileService {
 
     void importFile(MultipartFile file) throws IOException;
 
-    File prepareRecipesTxt() throws IOException;
 }
 
 
