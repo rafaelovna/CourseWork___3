@@ -37,7 +37,6 @@ public interface SocksRepository {
 
     /**
      * На вход принимает json-файл с данными и заменяет ими данные в памяти
-     * @param socksBatches
      */
     void replace(List<SocksBatch> socksBatches);
 }
