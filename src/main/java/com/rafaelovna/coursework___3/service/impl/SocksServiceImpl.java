@@ -44,16 +44,19 @@ public class SocksServiceImpl implements SocksService {
         if (!validationService.validate(socksColor, socksSize, cottonMin, cottonMax)) {
             throw new ValidationException();
         }
+
         Map<Socks, Integer> socksMap = socksRepository.getAll();
+        int count = 0;
         for (Map.Entry<Socks, Integer> entry : socksMap.entrySet()) {
             Socks socks = entry.getKey();
             if (socks.getColor().equals(socksColor)
                     && socks.getSize().equals(socksSize)
-                    && socks.getCottonPart() == (cottonMin+cottonMax)) {
-                return entry.getValue();
+                    && socks.getCottonPart() >= cottonMin
+                    && socks.getCottonPart() <= cottonMax) {
+                count += entry.getValue();
             }
         }
-        return 0;
+        return count;
     }
 
     /**
